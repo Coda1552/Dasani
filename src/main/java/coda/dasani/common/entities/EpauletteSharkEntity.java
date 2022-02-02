@@ -2,6 +2,7 @@ package coda.dasani.common.entities;
 
 import coda.dasani.registry.DasaniItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -20,8 +21,13 @@ import net.minecraft.world.level.pathfinder.AmphibiousNodeEvaluator;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.phys.HitResult;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class EpauletteSharkEntity extends WaterAnimal {
+public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public EpauletteSharkEntity(EntityType<? extends WaterAnimal> p_30341_, Level level) {
         super(p_30341_, level);
@@ -34,11 +40,36 @@ public class EpauletteSharkEntity extends WaterAnimal {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0D, 1));
-        this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
+        this.goalSelector.addGoal(1, new TryFindWaterGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.5D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.25D);
+    }
+
+
+    public void baseTick() {
+        int i = this.getAirSupply();
+        super.baseTick();
+        if (!this.isNoAi()) {
+            this.handleAirSupply(i);
+        }
+    }
+
+    protected void handleAirSupply(int p_149194_) {
+        if (this.isAlive() && !this.isInWaterRainOrBubble()) {
+            this.setAirSupply(p_149194_ - 1);
+            if (this.getAirSupply() == -20) {
+                this.setAirSupply(0);
+                this.hurt(DamageSource.DRY_OUT, 1.0F);
+            }
+        } else {
+            this.setAirSupply(this.getMaxAirSupply());
+        }
+    }
+
+    public int getMaxAirSupply() {
+        return 4800;
     }
 
     @Override
@@ -49,6 +80,21 @@ public class EpauletteSharkEntity extends WaterAnimal {
     @Override
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(DasaniItems.EPAULETTE_SHARK_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimationData data) {
+
+    }
+
+    @Override
+    public AnimationFactory getFactory() {
+        return factory;
+    }
+
+    @Override
+    public int tickTimer() {
+        return tickCount;
     }
 
     static class SharkPathNavigation extends WaterBoundPathNavigation {

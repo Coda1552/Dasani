@@ -8,6 +8,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import software.bernie.geckolib3.GeckoLib;
 
 @Mod(Dasani.MOD_ID)
 public class Dasani {
@@ -21,6 +22,8 @@ public class Dasani {
         DasaniItems.ITEMS.register(bus);
 
         bus.addListener(this::registerEntityAttributes);
+
+        GeckoLib.initialize();
     }
 
     private void registerEntityAttributes(EntityAttributeCreationEvent event) {
