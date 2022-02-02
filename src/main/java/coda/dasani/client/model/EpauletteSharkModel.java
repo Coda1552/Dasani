@@ -35,6 +35,6 @@ public class EpauletteSharkModel extends AnimatedTickingGeoModel<EpauletteSharkE
         if (entity.isInWater()) {
             fish.setRotationX(extraData.headPitch * ((float)Math.PI / 180F));
             fish.setRotationY(extraData.netHeadYaw * ((float)Math.PI / 180F));
-        }m
+        }
     }
 }
