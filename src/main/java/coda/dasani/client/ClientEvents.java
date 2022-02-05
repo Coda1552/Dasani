@@ -1,6 +1,7 @@
 package coda.dasani.client;
 
 import coda.dasani.Dasani;
+import coda.dasani.client.render.ClamRenderer;
 import coda.dasani.client.render.EpauletteSharkRenderer;
 import coda.dasani.registry.DasaniEntities;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -15,5 +16,6 @@ public class ClientEvents {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         EntityRenderers.register(DasaniEntities.EPAULETTE_SHARK.get(), EpauletteSharkRenderer::new);
+        EntityRenderers.register(DasaniEntities.CLAM.get(), ClamRenderer::new);
     }
 }

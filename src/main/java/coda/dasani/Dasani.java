@@ -1,5 +1,6 @@
 package coda.dasani;
 
+import coda.dasani.common.entities.ClamEntity;
 import coda.dasani.common.entities.EpauletteSharkEntity;
 import coda.dasani.registry.DasaniEntities;
 import coda.dasani.registry.DasaniItems;
@@ -28,5 +29,6 @@ public class Dasani {
 
     private void registerEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(DasaniEntities.EPAULETTE_SHARK.get(), EpauletteSharkEntity.createAttributes().build());
+        event.put(DasaniEntities.CLAM.get(), ClamEntity.createAttributes().build());
     }
 }

@@ -6,7 +6,7 @@ modId="dasani" #mandatory
 version="${file.jarVersion}" #mandatory
 displayName="Dasani" #mandatory
 logoFile="dasani.png" #optional
-authors="Coda, Omay" #optional
+authors="Coda, OmayPaty, TheGibberishOne, OrcaBaryonyx, Graustreif2004" #optional
 description='''
 Dasani.
 '''
