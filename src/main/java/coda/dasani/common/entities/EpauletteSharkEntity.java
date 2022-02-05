@@ -76,20 +76,12 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
     @Override
     public void travel(Vec3 p_21280_) {
         super.travel(p_21280_);
-
-        if (isInWater()) {
-            double xSpeed0 = Mth.clamp(getDeltaMovement().x(), -1.4, -1.4);
-            double zSpeed0 = Mth.clamp(getDeltaMovement().z(), -1.4, -1.4);
-            double xSpeed1 = Math.min(getDeltaMovement().x(), 1.4F);
-            double zSpeed1 = Math.min(getDeltaMovement().z(), 1.4F);
-            setDeltaMovement(getDeltaMovement().multiply(xSpeed1, getDeltaMovement().y, zSpeed1));
-        }
     }
 
     // TODO - remove
     @Override
     protected float getWaterSlowDown() {
-        return super.getWaterSlowDown() ;
+        return super.getWaterSlowDown();
     }
 
     public int getMaxAirSupply() {
