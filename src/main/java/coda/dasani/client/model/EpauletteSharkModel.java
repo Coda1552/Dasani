@@ -12,7 +12,7 @@ public class EpauletteSharkModel extends AnimatedTickingGeoModel<EpauletteSharkE
 
     @Override
     public ResourceLocation getModelLocation(EpauletteSharkEntity object) {
-        return new ResourceLocation(Dasani.MOD_ID, "geo/entity/epaulette_shark.geo.json");
+        return new ResourceLocation(Dasani.MOD_ID, "geo/epaulette_shark.geo.json");
     }
 
     @Override
@@ -22,7 +22,7 @@ public class EpauletteSharkModel extends AnimatedTickingGeoModel<EpauletteSharkE
 
     @Override
     public ResourceLocation getAnimationFileLocation(EpauletteSharkEntity animatable) {
-        return new ResourceLocation(Dasani.MOD_ID, "animations/entity/epaulette_shark.animation.json");
+        return new ResourceLocation(Dasani.MOD_ID, "animations/epaulette_shark.animation.json");
     }
 
     @Override

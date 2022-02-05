@@ -1,5 +1,7 @@
 {
   "item.dasani.epaulette_shark_spawn_egg": "Epaulette Shark Spawn Egg",
+  "item.dasani.clam_spawn_egg": "Clam Spawn Egg",
 
-  "entity.epaulette_shark": "Epaulette Shark"
+  "entity.dasani.epaulette_shark": "Epaulette Shark",
+  "entity.dasani.clam": "Clam"
 }

@@ -4,7 +4,6 @@ import coda.dasani.registry.DasaniItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,8 +20,13 @@ import net.minecraft.world.level.pathfinder.AmphibiousNodeEvaluator;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.IAnimationTickable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
@@ -34,7 +38,7 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.navigation = new SharkPathNavigation(this, level);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1.0F, 0.85F, true);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 35, 10, 1.0F, 0.85F, true);
     }
 
     @Override
@@ -44,9 +48,13 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.25D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.1D);
     }
 
+    @Override
+    public void travel(Vec3 p_21280_) {
+        super.travel(p_21280_);
+    }
 
     public void baseTick() {
         int i = this.getAirSupply();
@@ -82,9 +90,18 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
         return new ItemStack(DasaniItems.EPAULETTE_SHARK_SPAWN_EGG.get());
     }
 
+    private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
+        if (event.isMoving() && isInWater()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("swim", true));
+            return PlayState.CONTINUE;
+        } else {
+            return PlayState.CONTINUE;
+        }
+    }
+
     @Override
     public void registerControllers(AnimationData data) {
-
+        data.addAnimationController(new AnimationController<>(this, "controller", 10, this::predicate));
     }
 
     @Override

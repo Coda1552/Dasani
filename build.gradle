@@ -128,7 +128,8 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.1-39.0.63'
 
-    implementation fg.deobf('software.bernie.geckolib:geckolib-1.18-forge:3.0.7')}
+    implementation fg.deobf('software.bernie.geckolib:geckolib-1.18-forge:3.0.7')
+}
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {

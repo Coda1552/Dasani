@@ -16,43 +16,43 @@
 					"pivot": [0, 1, 0]
 				},
 				{
-					"name": "right_fin_2",
+					"name": "body",
 					"parent": "fish",
-					"pivot": [-3, 0.25, -1],
+					"pivot": [0, 2, 0],
 					"cubes": [
-						{"origin": [-6, 0.25, -2], "size": [3, 0, 3], "pivot": [-3, 0, -1.5], "rotation": [-0.32902, 7.49282, -2.52154], "uv": [0, 30]}
-					]
-				},
-				{
-					"name": "right_fin_1",
-					"parent": "fish",
-					"pivot": [-3, 0.25, -6],
-					"cubes": [
-						{"origin": [-8, 0.25, -7], "size": [5, 0, 3], "pivot": [-3, 0, -6], "rotation": [-0.88045, 9.96156, -5.07673], "uv": [24, 4]}
-					]
-				},
-				{
-					"name": "left_fin_2",
-					"parent": "fish",
-					"pivot": [3, 0.25, -1],
-					"cubes": [
-						{"origin": [3, 0.25, -2], "size": [3, 0, 3], "pivot": [3, 0, -1.5], "rotation": [-0.32902, -7.49282, 2.52154], "uv": [30, 16]}
+						{"origin": [-3, 0, -11], "size": [6, 4, 11], "uv": [0, 0]}
 					]
 				},
 				{
 					"name": "left_fin_1",
-					"parent": "fish",
+					"parent": "body",
 					"pivot": [3, 0.25, -6],
 					"cubes": [
 						{"origin": [3, 0.25, -7], "size": [5, 0, 3], "pivot": [3, 0, -6], "rotation": [-0.88045, -9.96156, 5.07673], "uv": [24, 0]}
 					]
 				},
 				{
-					"name": "body",
-					"parent": "fish",
-					"pivot": [0, 2, 0],
+					"name": "left_fin_2",
+					"parent": "body",
+					"pivot": [3, 0.25, -1],
 					"cubes": [
-						{"origin": [-3, 0, -11], "size": [6, 4, 11], "uv": [0, 0]}
+						{"origin": [3, 0.25, -2], "size": [3, 0, 3], "pivot": [3, 0, -1.5], "rotation": [-0.32902, -7.49282, 2.52154], "uv": [30, 16]}
+					]
+				},
+				{
+					"name": "right_fin_1",
+					"parent": "body",
+					"pivot": [-3, 0.25, -6],
+					"cubes": [
+						{"origin": [-8, 0.25, -7], "size": [5, 0, 3], "pivot": [-3, 0, -6], "rotation": [-0.88045, 9.96156, -5.07673], "uv": [24, 4]}
+					]
+				},
+				{
+					"name": "right_fin_2",
+					"parent": "body",
+					"pivot": [-3, 0.25, -1],
+					"cubes": [
+						{"origin": [-6, 0.25, -2], "size": [3, 0, 3], "pivot": [-3, 0, -1.5], "rotation": [-0.32902, 7.49282, -2.52154], "uv": [0, 30]}
 					]
 				},
 				{
