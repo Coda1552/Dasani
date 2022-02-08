@@ -1,12 +1,19 @@
 package coda.dasani.common.entities;
 
+import coda.dasani.common.entities.goal.DigSandGoal;
 import coda.dasani.common.entities.goal.FindWaterGoal;
+import coda.dasani.common.entities.goal.SharkDigGoal;
 import coda.dasani.registry.DasaniItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -32,6 +39,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IAnimationTickable {
     private final AnimationFactory factory = new AnimationFactory(this);
+    private static final EntityDataAccessor<Boolean> DIGGING = SynchedEntityData.defineId(EpauletteSharkEntity.class, EntityDataSerializers.BOOLEAN);
 
     public EpauletteSharkEntity(EntityType<? extends WaterAnimal> p_30341_, Level level) {
         super(p_30341_, level);
@@ -44,8 +52,9 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0D, 40));
+        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(1, new FindWaterGoal(this));
+        this.goalSelector.addGoal(2, new DigSandGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -58,6 +67,26 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
         if (!this.isNoAi()) {
             this.handleAirSupply(i);
         }
+
+        System.out.println(isDigging());
+    }
+
+    @Override
+    public void travel(Vec3 p_27490_) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(0.01F, p_27490_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (isDigging()) {
+                this.setDeltaMovement(0.0D, -0.05D, 0.0D);
+            }
+            else if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
+        } else {
+            super.travel(p_27490_);
+        }
+
     }
 
     protected void handleAirSupply(int p_149194_) {
@@ -72,16 +101,17 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
         }
     }
 
-    // TODO - remove
-    @Override
-    public void travel(Vec3 p_21280_) {
-        super.travel(p_21280_);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DIGGING, false);
     }
 
-    // TODO - remove
-    @Override
-    protected float getWaterSlowDown() {
-        return super.getWaterSlowDown();
+    public boolean isDigging(){
+        return this.entityData.get(DIGGING);
+    }
+
+    public void setDigging(boolean digging){
+        this.entityData.set(DIGGING, digging);
     }
 
     public int getMaxAirSupply() {
@@ -94,7 +124,11 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        if (event.isMoving() && isInWater()) {
+        if (isDigging()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("dig", true));
+            return PlayState.CONTINUE;
+        }
+        else if (event.isMoving() && isInWater()) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("swim", true));
             return PlayState.CONTINUE;
         } else if (event.isMoving() && isOnGround() && !isInWater()) {

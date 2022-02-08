@@ -32,7 +32,7 @@ public class EpauletteSharkModel extends AnimatedTickingGeoModel<EpauletteSharkE
 
         EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
 
-        if (entity.isInWater()) {
+        if (!entity.isDigging() && entity.isInWater()) {
             fish.setRotationX(extraData.headPitch * ((float)Math.PI / 180F));
             fish.setRotationY(extraData.netHeadYaw * ((float)Math.PI / 180F));
         }

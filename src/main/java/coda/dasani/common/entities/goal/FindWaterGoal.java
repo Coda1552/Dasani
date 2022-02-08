@@ -6,6 +6,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 
+// Literally vanilla's exact goal but slower, because reasons.
 public class FindWaterGoal extends Goal {
    private final PathfinderMob mob;
 
