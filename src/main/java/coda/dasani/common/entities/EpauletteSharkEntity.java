@@ -52,7 +52,7 @@ public class EpauletteSharkEntity extends WaterAnimal implements IAnimatable, IA
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0D, 10));
+        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0D, 40));
         this.goalSelector.addGoal(1, new FindWaterGoal(this));
         this.goalSelector.addGoal(2, new DigSandGoal(this));
     }
