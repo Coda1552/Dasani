@@ -2,6 +2,7 @@ package coda.dasani;
 
 import coda.dasani.common.entities.ClamEntity;
 import coda.dasani.common.entities.EpauletteSharkEntity;
+import coda.dasani.registry.DasaniBiomes;
 import coda.dasani.registry.DasaniEntities;
 import coda.dasani.registry.DasaniItems;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,10 +18,12 @@ public class Dasani {
 
     public Dasani() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        // UNUSED! Laugh at this user!
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
         DasaniEntities.ENTITIES.register(bus);
         DasaniItems.ITEMS.register(bus);
+        DasaniBiomes.BIOMES.register(bus);
 
         bus.addListener(this::registerEntityAttributes);
 
